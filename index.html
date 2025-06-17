@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Schere, Stein, Papier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Schere, Stein oder Papier</h1>
+        <select id="choice">
+            <option value="Schere">Schere</option>
+            <option value="Stein">Stein</option>
+            <option value="Papier">Papier</option>
+        </select>
+        <button onclick="playGame()">Los</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function playGame() {
+            const choice = document.getElementById("choice").value;
+
+            fetch("/play", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ choice: choice })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("message").innerText = data.result;
+            });
+        }
+    </script>
+</body>
+</html>
